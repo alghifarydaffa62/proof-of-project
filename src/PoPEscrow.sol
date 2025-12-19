@@ -27,6 +27,8 @@ contract PoPEscrow {
     }
 
     Project[] public projects;
+    mapping(address => uint256[]) public clientProjects;
+    mapping(address => uint256[]) public vendorProjects;
 
     event ProjectCreated(uint256 indexed projectId, string name, uint256 value);
     event MilestoneApproved(uint256 indexed projectId, string stepName, uint256 amountReleased);
@@ -74,6 +76,9 @@ contract PoPEscrow {
             project.milestones.push(Milestone({description: _milestoneNames[i], amount: _milestoneAmounts[i]}));
         }
 
+        clientProjects[msg.sender].push(newProjectId);
+        vendorProjects[_vendor].push(newProjectId);
+
         emit ProjectCreated(newProjectId, _name, totalProjectValue);
     }
 
@@ -115,5 +120,13 @@ contract PoPEscrow {
 
     function getProjectDetails(uint256 _projectId) external view returns (Project memory) {
         return projects[_projectId];
+    }
+
+    function getMyClientProjects(address _user) external view returns (uint256[] memory) {
+        return clientProjects[_user];
+    }
+
+    function getMyVendorProjects(address _user) external view returns (uint256[] memory) {
+        return vendorProjects[_user];
     }
 }
