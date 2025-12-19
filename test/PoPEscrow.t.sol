@@ -23,25 +23,21 @@ contract PoPEscrowTest is Test {
         token.transfer(client, 10000 * 10 ** 18);
 
         vm.startPrank(client);
-        token.approve(address(escrow), 1000000 * 10 ** 18); 
+        token.approve(address(escrow), 1000000 * 10 ** 18);
         vm.stopPrank();
 
         milestoneNames.push("Milestone 1: DP & Delivery");
-        milestoneAmounts.push(300 * 10 ** 18); 
+        milestoneAmounts.push(300 * 10 ** 18);
 
         milestoneNames.push("Milestone 2: Installation Final");
-        milestoneAmounts.push(700 * 10 ** 18); 
+        milestoneAmounts.push(700 * 10 ** 18);
     }
 
     function testCreateProject() public {
         vm.startPrank(client);
 
         escrow.createProject(
-            "Project Instalasi Jaringan",
-            "https://docs.google.com/spk.pdf",
-            vendor,
-            milestoneNames,
-            milestoneAmounts
+            "Project Instalasi Jaringan", "https://docs.google.com/spk.pdf", vendor, milestoneNames, milestoneAmounts
         );
 
         assertEq(token.balanceOf(client), 9000 * 10 ** 18);
@@ -49,7 +45,7 @@ contract PoPEscrowTest is Test {
 
         uint256[] memory clientProjs = escrow.getMyClientProjects(client);
         assertEq(clientProjs.length, 1);
-        
+
         vm.stopPrank();
     }
 
@@ -57,7 +53,7 @@ contract PoPEscrowTest is Test {
         vm.prank(client);
         escrow.createProject("Project A", "link", vendor, milestoneNames, milestoneAmounts);
 
-        vm.prank(client); 
+        vm.prank(client);
         escrow.ApproveMileStone(0);
         assertEq(token.balanceOf(vendor), 300 * 10 ** 18);
 
@@ -69,98 +65,78 @@ contract PoPEscrowTest is Test {
         assertEq(p.isCompleted, true);
     }
 
-
     function testHackerCannotApprove() public {
         vm.prank(client);
         escrow.createProject("Project A", "link", vendor, milestoneNames, milestoneAmounts);
 
         vm.prank(hacker);
-        vm.expectRevert("Only Client!"); 
+        vm.expectRevert("Only Client!");
         escrow.ApproveMileStone(0);
     }
 
     function testRevertInvalidVendor() public {
         vm.startPrank(client);
         vm.expectRevert("Invalid vendor address");
-        
-        escrow.createProject(
-            "Project A", 
-            "link", 
-            address(0), 
-            milestoneNames, 
-            milestoneAmounts
-        );
+
+        escrow.createProject("Project A", "link", address(0), milestoneNames, milestoneAmounts);
         vm.stopPrank();
     }
 
     function testRevertInvalidName() public {
         vm.startPrank(client);
-        vm.expectRevert("Invalid name!"); 
-        
-        escrow.createProject(
-            "", 
-            "link", 
-            vendor, 
-            milestoneNames, 
-            milestoneAmounts
-        );
+        vm.expectRevert("Invalid name!");
+
+        escrow.createProject("", "link", vendor, milestoneNames, milestoneAmounts);
         vm.stopPrank();
     }
 
     function testRevertInvalidLink() public {
         vm.startPrank(client);
-        vm.expectRevert("Invalid document link!"); 
-        
-        escrow.createProject(
-            "Project A", 
-            "", 
-            vendor, 
-            milestoneNames, 
-            milestoneAmounts
-        );
+        vm.expectRevert("Invalid document link!");
+
+        escrow.createProject("Project A", "", vendor, milestoneNames, milestoneAmounts);
         vm.stopPrank();
     }
 
     function testRevertArrayMismatch() public {
         vm.startPrank(client);
-        
+
         string[] memory badNames = new string[](2);
         badNames[0] = "M1";
         badNames[1] = "M2";
-        
-        uint256[] memory badAmounts = new uint256[](1); 
+
+        uint256[] memory badAmounts = new uint256[](1);
         badAmounts[0] = 100;
 
-        vm.expectRevert("Invalid name and milestoens"); 
-        
+        vm.expectRevert("Invalid name and milestoens");
+
         escrow.createProject("Project A", "link", vendor, badNames, badAmounts);
         vm.stopPrank();
     }
 
     function testRevertZeroValue() public {
         vm.startPrank(client);
-        
+
         uint256[] memory zeroAmounts = new uint256[](2);
-        zeroAmounts[0] = 0; 
-        zeroAmounts[1] = 0; 
+        zeroAmounts[0] = 0;
+        zeroAmounts[1] = 0;
 
         vm.expectRevert("Total nilai proyek tidak boleh 0");
-        
+
         escrow.createProject("Project A", "link", vendor, milestoneNames, zeroAmounts);
         vm.stopPrank();
     }
 
     function testRevertAlreadyCompleted() public {
-
         vm.startPrank(client);
         escrow.createProject("Project A", "link", vendor, milestoneNames, milestoneAmounts);
-        
-        escrow.ApproveMileStone(0); 
-        escrow.ApproveMileStone(0); 
+
+        escrow.ApproveMileStone(0);
+        escrow.ApproveMileStone(0);
 
         vm.expectRevert("Project already completed!");
         escrow.ApproveMileStone(0);
-        
+
         vm.stopPrank();
     }
 }
