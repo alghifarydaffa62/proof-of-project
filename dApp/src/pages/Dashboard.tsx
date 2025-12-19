@@ -8,6 +8,7 @@ export default function Dashboard() {
     if(connections.length == 0) {
         navigate('/')
     }
+    
     return(
         <div>
             <h1 className="text-2xl font-semibold text-white">Dashboard</h1>
