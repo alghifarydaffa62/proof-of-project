@@ -100,11 +100,7 @@ contract PoPEscrow {
         }
     }
 
-    function getCurrentMilestone(uint256 _projectId)
-        external
-        view
-        returns (string memory description, uint256 amount)
-    {
+    function getCurrentMilestone(uint256 _projectId) external view returns (string memory description, uint256 amount) {
         Project storage proj = projects[_projectId];
         if (proj.isCompleted) {
             return ("Completed", 0);
