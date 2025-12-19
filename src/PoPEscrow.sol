@@ -23,7 +23,7 @@ contract PoPEscrow {
         uint256 amountPaid;
         bool isCompleted;
         Milestone[] milestones;
-        uint256 currentMilestoneIndex; 
+        uint256 currentMilestoneIndex;
     }
 
     Project[] public projects;
@@ -39,7 +39,7 @@ contract PoPEscrow {
         string memory _name,
         string memory _documentLink,
         address _vendor,
-        string[] memory _milestoneNames, 
+        string[] memory _milestoneNames,
         uint256[] memory _milestoneAmounts
     ) external {
         require(_vendor != address(0), "Invalid vendor address");
@@ -49,7 +49,7 @@ contract PoPEscrow {
         require(_milestoneNames.length > 0, "Invalid milestones name");
 
         uint256 totalProjectValue = 0;
-        for(uint256 i = 0; i < _milestoneAmounts.length; i++) {
+        for (uint256 i = 0; i < _milestoneAmounts.length; i++) {
             totalProjectValue += _milestoneAmounts[i];
         }
 
@@ -71,10 +71,7 @@ contract PoPEscrow {
         project.isCompleted = false;
 
         for (uint256 i = 0; i < _milestoneNames.length; i++) {
-            project.milestones.push(Milestone({
-                description: _milestoneNames[i],
-                amount: _milestoneAmounts[i]
-            }));
+            project.milestones.push(Milestone({description: _milestoneNames[i], amount: _milestoneAmounts[i]}));
         }
 
         emit ProjectCreated(newProjectId, _name, totalProjectValue);
@@ -97,13 +94,17 @@ contract PoPEscrow {
         emit MilestoneApproved(_projectId, currentStep.description, amountToRelease);
 
         if (currentIndex + 1 < project.milestones.length) {
-            project.currentMilestoneIndex += 1; 
+            project.currentMilestoneIndex += 1;
         } else {
-            project.isCompleted = true; 
+            project.isCompleted = true;
         }
     }
 
-    function getCurrentMilestone(uint256 _projectId) external view returns (string memory description, uint256 amount) {
+    function getCurrentMilestone(uint256 _projectId)
+        external
+        view
+        returns (string memory description, uint256 amount)
+    {
         Project storage proj = projects[_projectId];
         if (proj.isCompleted) {
             return ("Completed", 0);
@@ -115,7 +116,7 @@ contract PoPEscrow {
     function getProjectCount() external view returns (uint256) {
         return projects.length;
     }
-    
+
     function getProjectDetails(uint256 _projectId) external view returns (Project memory) {
         return projects[_projectId];
     }
