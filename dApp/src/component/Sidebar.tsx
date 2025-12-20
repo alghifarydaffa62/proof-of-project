@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom'; // <--- GANTI IMPORT INI
+import { Link, useLocation } from 'react-router-dom'; 
 import { 
   LayoutDashboard, 
   PlusCircle, 
@@ -31,7 +31,7 @@ export default function Sidebar() {
                     return (
                         <Link 
                             key={item.href}
-                            to={item.href} // <--- PROPSNYA 'to', BUKAN 'href'
+                            to={item.href} 
                             className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group ${
                                 isActive 
                                 ? 'bg-blue-600/10 text-blue-400 border-l-4 border-blue-500' 
