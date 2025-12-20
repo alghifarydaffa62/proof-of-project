@@ -1,13 +1,17 @@
 import { useConnection, useConnections } from "wagmi"
 import { useNavigate } from "react-router-dom"
+import { useEffect } from "react"
 export default function Dashboard() {
     const { address } = useConnection()
     const connections = useConnections()
     const navigate = useNavigate()
 
-    if(connections.length == 0) {
-        navigate('/')
-    }
+    useEffect(() => {
+        if(connections.length == 0) {
+            navigate('/')
+        }
+    }, [address, connections])
+    
     
     return(
         <div>
