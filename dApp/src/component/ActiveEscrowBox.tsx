@@ -76,13 +76,13 @@ export default function ActiveEscrowBox({ project }: { project: ProjectProps }) 
                         {project.totalAmount} <span className="text-sm text-slate-500">USDY</span>
                     </p>
                 </div>
-                
+                    
                 <Link 
                     className={`text-xs px-4 py-2 rounded font-semibold transition-colors border
                     ${project.isCompleted 
                         ? 'bg-slate-800 text-slate-500 border-slate-700 cursor-not-allowed' 
                         : 'bg-emerald-600/10 text-emerald-400 border-emerald-600/50 hover:bg-emerald-600 hover:text-white'}`}
-                    to="#"
+                    to={`escrow/${project.id}`}
                 >
                     {project.isCompleted ? "Archived" : "Manage"}
                 </Link>

@@ -1,9 +1,21 @@
 import { useActiveEscrows } from "../hooks/useActiveEscrows";
 import ActiveEscrowBox from "../component/ActiveEscrowBox";
 import { Loader2, Briefcase } from "lucide-react";
+import { useConnection, useConnections } from "wagmi";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function ActiveEscrows() {
     const { projects, isLoading, isEmpty } = useActiveEscrows()
+    const { address } = useConnection()
+    const connections = useConnections()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if(connections.length == 0) {
+            navigate('/')
+        }
+    }, [address, connections])
 
     if(isLoading) {
         <div className="flex justify-center py-20"><Loader2 className="animate-spin text-emerald-500"/></div>
@@ -21,7 +33,7 @@ export default function ActiveEscrows() {
                 <Briefcase className="text-emerald-400" /> Active Escrows
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
                 {projects.map((project: any) => (
                     <ActiveEscrowBox key={project.id} project={project} />
                 ))}
