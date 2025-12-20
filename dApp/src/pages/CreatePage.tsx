@@ -14,8 +14,6 @@ export default function CreatePage() {
         }
     }, [address, connections])
     
-    
-
     return(
         <div className="p-6">
             <h1 className="text-2xl text-white font-semibold">Create page</h1>
