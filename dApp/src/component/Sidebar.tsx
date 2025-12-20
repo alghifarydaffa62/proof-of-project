@@ -2,12 +2,13 @@ import { Link, useLocation } from 'react-router-dom'; // <--- GANTI IMPORT INI
 import { 
   LayoutDashboard, 
   PlusCircle, 
-  ShieldCheck 
+  ShieldCheck,
 } from 'lucide-react';
 
 const menuItems = [
     { name: 'Dashboard', href:'/dashboard', icon: LayoutDashboard},
-    { name: 'Create new Escrow', href: '/dashboard/create', icon: PlusCircle}
+    { name: 'Create new Escrow', href: '/dashboard/create', icon: PlusCircle},
+    { name: 'Active Escrows', href: '/dashboard/active', icon: PlusCircle}
 ]
 export default function Sidebar() {
     const location = useLocation()
