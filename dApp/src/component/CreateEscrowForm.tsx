@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useCreateEscrow } from "../hooks/useCreateEscrow";
 import { uploadIPFS } from "../utils/uploadIPFS";
-import { Plus, FileText, Wallet, Shield } from "lucide-react";
+import { Plus, FileText, Wallet, Shield, CheckCircle, ExternalLink, ArrowRight } from "lucide-react";
 
 export default function CreateEscrowForm() {
     const {
@@ -10,7 +10,8 @@ export default function CreateEscrowForm() {
         vendor, setVendor,
         milestones, addMilestone,
         handleApprove, isApprovePending, isApproveConfirming, isApproveSuccess,
-        handleCreate, isCreatePending, isCreateConfirming
+        handleCreate, isCreatePending, isCreateConfirming, isCreateSuccess,
+        hashCreate
     } = useCreateEscrow()
 
     const [MilestoneName, setMilestoneName] = useState("")
@@ -18,6 +19,10 @@ export default function CreateEscrowForm() {
     const [isUploading, setIsUploading] = useState(false)
     
     const totalCost = milestones.reduce((acc, curr) => acc + Number(curr.amount), 0);
+
+    const handleReset = () => {
+        window.location.reload(); 
+    };
 
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0]
@@ -41,6 +46,63 @@ export default function CreateEscrowForm() {
         addMilestone(MilestoneName, MilestoneAmount)
         setMilestoneName("")
         setMilestoneAmount("")
+    }
+
+    if (isCreateSuccess) {
+        return (
+            <div className="max-w-2xl mx-auto mt-10 text-center space-y-6 animate-fade-in-up">
+                <div className="w-24 h-24 bg-green-500/20 rounded-full flex items-center justify-center mx-auto border-4 border-green-500">
+                    <CheckCircle className="w-12 h-12 text-green-500" />
+                </div>
+
+                <div>
+                    <h1 className="text-4xl font-bold text-white mb-2">Project Created! 🎉</h1>
+                    <p className="text-slate-400">
+                        Proyek <b>"{title}"</b> berhasil dibuat dan dana sebesar <span className="text-emerald-400 font-mono font-bold">{totalCost} USDY</span> telah dikunci di Escrow Smart Contract.
+                    </p>
+                </div>
+
+                <div className="bg-slate-900 border border-slate-800 p-6 rounded-xl text-left space-y-3">
+                    <p className="text-sm text-slate-500 uppercase tracking-widest font-bold">Transaction Details</p>
+                    
+                    <div className="flex justify-between items-center py-2 border-b border-slate-800">
+                        <span className="text-slate-400">Status</span>
+                        <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-bold border border-green-500/30">
+                            CONFIRMED ON-CHAIN
+                        </span>
+                    </div>
+
+                    <div className="flex justify-between items-center py-2">
+                        <span className="text-slate-400">Tx Hash</span>
+                        <a 
+                            href={`https://explorer.sepolia.mantle.xyz/tx/${hashCreate}`} 
+                            target="_blank" 
+                            rel="noreferrer"
+                            className="text-blue-400 hover:text-blue-300 flex items-center gap-1 text-sm font-mono"
+                        >
+                            {hashCreate?.slice(0, 10)}...{hashCreate?.slice(-8)}
+                            <ExternalLink size={14}/>
+                        </a>
+                    </div>
+                </div>
+
+                <div className="flex justify-center gap-4 pt-4">
+                    <button 
+                        onClick={handleReset}
+                        className="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-lg transition-colors border border-slate-700"
+                    >
+                        Create Another Project
+                    </button>
+
+                    <a 
+                        href="/dashboard" 
+                        className="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors flex items-center gap-2 shadow-lg shadow-emerald-900/20 font-semibold"
+                    >
+                        Go to Dashboard <ArrowRight size={18}/>
+                    </a>
+                </div>
+            </div>
+        );
     }
 
     return(
