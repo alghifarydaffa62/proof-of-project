@@ -1,6 +1,8 @@
 import { useConnection, useConnections } from "wagmi"
 import { useNavigate } from "react-router-dom"
 import { useEffect } from "react"
+import StatsBox from "../component/StatsBox"
+
 export default function Dashboard() {
     const { address } = useConnection()
     const connections = useConnections()
@@ -18,6 +20,10 @@ export default function Dashboard() {
             <h1 className="text-2xl font-semibold text-white">Dashboard</h1>
 
             <h1 className="text-white">Connected user: {address}</h1>
+
+            <div className="mt-6">
+                <StatsBox/>
+            </div>
         </div>
     )
 }

@@ -5,6 +5,7 @@ import DashboardLayout from "./layout/DashboardLayout"
 import CreatePage from "./pages/CreatePage"
 import ActiveEscrows from "./pages/ActiveEscrows"
 import EscrowPage from "./pages/EscrowPage"
+import Archive from "./pages/Archive"
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route path="create" element={<CreatePage/>}/>
             <Route path="active" element={<ActiveEscrows/>}/>
             <Route path="active/escrow/:id" element={<EscrowPage/>}/>
+            <Route path="archive" element={<Archive/>}/>
           </Route>
         </Routes>
       </Router>
