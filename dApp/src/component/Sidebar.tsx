@@ -3,12 +3,15 @@ import {
   LayoutDashboard, 
   PlusCircle, 
   ShieldCheck,
+  Activity,
+  EyeClosed
 } from 'lucide-react';
 
 const menuItems = [
     { name: 'Dashboard', href:'/dashboard', icon: LayoutDashboard},
     { name: 'Create new Escrow', href: '/dashboard/create', icon: PlusCircle},
-    { name: 'Active Escrows', href: '/dashboard/active', icon: PlusCircle}
+    { name: 'Active Escrows', href: '/dashboard/active', icon: Activity},
+    { name: 'Archive', href: '/dashboard/archive', icon: EyeClosed}
 ]
 export default function Sidebar() {
     const location = useLocation()

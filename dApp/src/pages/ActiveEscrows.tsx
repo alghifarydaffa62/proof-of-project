@@ -11,6 +11,8 @@ export default function ActiveEscrows() {
     const connections = useConnections()
     const navigate = useNavigate()
 
+    const projectActive = projects?.filter((p: any) => !p.isCompleted)
+    
     useEffect(() => {
         if(connections.length == 0) {
             navigate('/')
@@ -34,7 +36,7 @@ export default function ActiveEscrows() {
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-                {projects.map((project: any) => (
+                {projectActive.map((project: any) => (
                     <ActiveEscrowBox key={project.id} project={project} />
                 ))}
             </div>
