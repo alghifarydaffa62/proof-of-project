@@ -220,7 +220,7 @@ export default function CreateEscrowForm() {
                         <div className={`w-6 h-6 rounded-full flex items-center justify-center border ${isApproveSuccess ? 'bg-emerald-500 border-emerald-500 text-black' : 'border-slate-500'}`}>1</div>
                         <span>Approve Token</span>
                     </div>
-                    <div className="w-12 h-[1px] bg-slate-700"></div>
+                    <div className="w-12 h-px bg-slate-700"></div>
                     <div className={`flex items-center gap-2 ${!isApproveSuccess ? 'text-slate-500' : 'text-white'}`}>
                         <div className={`w-6 h-6 rounded-full flex items-center justify-center border ${!isApproveSuccess ? 'border-slate-700' : 'bg-blue-600 border-blue-600'}`}>2</div>
                         <span>Create Project</span>

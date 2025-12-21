@@ -17,7 +17,6 @@ export default function EscrowMilestoneBox({
                 {milestones.map((ms: any, index: number) => {
                     const isPast = index < currentStep;
                     const isCurrent = index === currentStep && !isCompleted;
-                    const isFuture = index > currentStep;
                     const amount = formatUnits(ms.amount, 18); 
 
                     return (
