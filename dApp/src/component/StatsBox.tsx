@@ -1,5 +1,5 @@
 import { useActiveEscrows } from "../hooks/useActiveEscrows"
-import { Activity, CheckCircle, DollarSign, Briefcase } from "lucide-react";
+import { Activity, CheckCircle } from "lucide-react";
 
 export default function StatsBox() {
     const { projects, isLoading } = useActiveEscrows()
